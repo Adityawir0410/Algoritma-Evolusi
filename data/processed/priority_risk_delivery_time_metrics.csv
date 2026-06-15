@@ -1,0 +1,6 @@
+metric,value
+pearson_priority_risk_vs_delivery_time,0.4109
+spearman_priority_risk_vs_delivery_time,0.4295
+top20_avg_delivery_time,157.4775
+bottom20_avg_delivery_time,93.9489
+top20_minus_bottom20_delivery_time,63.5286

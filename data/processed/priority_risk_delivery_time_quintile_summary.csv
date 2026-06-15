@@ -1,0 +1,6 @@
+risk_bin,order_count,risk_min,risk_max,avg_delivery_time,median_delivery_time,avg_optimization_cost
+Q1 sangat rendah,8714,0.0,0.1854,93.958,95.0,10.2499
+Q2 rendah,8711,0.1854,0.2631,112.9258,115.0,14.5405
+Q3 sedang,8709,0.2631,0.3354,123.8689,125.0,17.2997
+Q4 tinggi,8707,0.3354,0.422,136.4382,140.0,19.6635
+Q5 sangat tinggi,8710,0.422,0.7626,157.4775,165.0,23.6384
