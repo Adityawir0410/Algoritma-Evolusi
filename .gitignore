@@ -1,0 +1,12 @@
+# Python environments and cache
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# PDF files as requested
+Bagian3_DesainAlgoritma.docx.pdf
+*.pdf
+
+# Do NOT ignore data folder
+!data/
