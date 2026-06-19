@@ -1,0 +1,27 @@
+
+===========================================================
+RINGKASAN HASIL EKSPERIMEN
+===========================================================
+
+Berdasarkan pengujian terhadap 5 konfigurasi parameter yang berbeda, 
+didapatkan bahwa Konfigurasi 3.0 memberikan hasil terbaik.
+
+Detail Parameter Terbaik:
+- Populasi        : 100.0
+- Generasi        : 150.0
+- Crossover Rate  : 0.9
+- Mutation Rate   : 0.2
+
+Hasil yang Dicapai:
+- Best Fitness       : 0.000668
+- Rata-rata Fitness  : 0.000657
+- Generasi Terbaik   : Ditemukan pada generasi ke-116.0
+- Waktu Komputasi    : 0.38 detik
+
+Kesimpulan:
+Konfigurasi dengan ukuran populasi 100.0 dan generasi 150.0 
+(Crossover Rate 0.9, Mutation Rate 0.2) 
+mampu mencapai konvergensi dan menghasilkan nilai fitness paling optimal dibandingkan konfigurasi lainnya.
+Waktu komputasi yang dibutuhkan adalah 0.38 detik, 
+sehingga parameter ini direkomendasikan untuk digunakan dalam implementasi final sistem.
+===========================================================
