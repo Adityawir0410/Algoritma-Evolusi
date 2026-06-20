@@ -1,0 +1,91 @@
+═══════════════════════════════════════════════════════════
+ALGORITMA : Genetic Algorithm — Optimasi Bobot Skor Prioritas Pengiriman
+INPUT     : feature_scores (distance, traffic, weather, vehicle, agent),
+            delivery_time, pop_size, max_gen, P_c, P_m
+OUTPUT    : best_weights, best_fitness, convergence_history
+═══════════════════════════════════════════════════════════
+MULAI
+
+  // FASE 1: PERSIAPAN DATA
+  data ← MuatDataset('amazon_delivery_cleaned.csv')
+  S    ← data[distance_score, traffic_score, weather_score,
+             vehicle_score, agent_score]        // matriks fitur (sudah 0–1)
+  y    ← data[delivery_time]                     // ground truth (HANYA evaluasi)
+
+  // FASE 2: INISIALISASI POPULASI
+  populasi ← []
+  UNTUK i = 1 SAMPAI pop_size:
+      w ← 5 bilangan acak U(0,1)
+      w ← w / jumlah(w)                          // normalisasi: Σw = 1
+      populasi.tambah(w)
+  best_weights ← NULL ; best_fitness ← 0 ; convergence_history ← []
+
+  // FASE 3: EVALUASI AWAL
+  UNTUK setiap kromosom DALAM populasi:
+      f ← HitungFitness(kromosom, S, y)
+      JIKA f > best_fitness:
+          best_fitness ← f ; best_weights ← kromosom
+  convergence_history.tambah(best_fitness)
+
+  // FASE 4: LOOP EVOLUSI
+  UNTUK generasi = 1 SAMPAI max_gen:
+      populasi_baru ← []
+
+      // Elitism: 10% individu terbaik langsung lolos
+      elite ← AmbilTopK(populasi, fitness, k=CEIL(0.1 × pop_size))
+      populasi_baru.tambah(elite)
+
+      // Reproduksi sampai populasi penuh
+      SELAMA panjang(populasi_baru) < pop_size:
+          p1 ← SeleksiTournament(populasi, fitness, k=3)
+          p2 ← SeleksiTournament(populasi, fitness, k=3)
+
+          JIKA acak() < P_c:
+              [c1, c2] ← OnePointCrossover(p1, p2)
+          JIKA TIDAK:
+              c1 ← p1 ; c2 ← p2
+
+          c1 ← Mutasi(c1, P_m)
+          c2 ← Mutasi(c2, P_m)
+          populasi_baru.tambah(c1, c2)
+
+      populasi ← populasi_baru
+
+      // Evaluasi ulang + perbarui solusi terbaik
+      UNTUK setiap kromosom DALAM populasi:
+          f ← HitungFitness(kromosom, S, y)
+          JIKA f > best_fitness:
+              best_fitness ← f ; best_weights ← kromosom
+      convergence_history.tambah(best_fitness)
+
+  // FASE 5: OUTPUT
+  TAMPILKAN best_weights, best_fitness
+  KEMBALIKAN best_weights, best_fitness, convergence_history
+
+SELESAI
+═══════════════════════════════════════════════════════════
+FUNGSI HitungFitness(w, S, y):
+  // priority_score untuk SEMUA order sekaligus (kombinasi linear)
+  priority_score ← w[0]·S.distance_score + w[1]·S.traffic_score
+                 + w[2]·S.weather_score  + w[3]·S.vehicle_score
+                 + w[4]·S.agent_score
+  ρ ← KorelasiSpearman(priority_score, y)
+  KEMBALIKAN (ρ + 1) / 2               // skala [0,1]; makin besar makin baik
+
+FUNGSI SeleksiTournament(populasi, fitness, k):
+  kandidat ← pilih k individu acak (tanpa pengembalian)
+  KEMBALIKAN individu dengan fitness tertinggi dari kandidat
+
+FUNGSI OnePointCrossover(p1, p2):
+  pt ← bilangan bulat acak ∈ [1, 4]
+  c1 ← gabung(p1[0:pt], p2[pt:5]) ; c1 ← c1 / jumlah(c1)   // renormalisasi
+  c2 ← gabung(p2[0:pt], p1[pt:5]) ; c2 ← c2 / jumlah(c2)
+  KEMBALIKAN c1, c2
+
+FUNGSI Mutasi(w, P_m):
+  JIKA acak() < P_m:
+      idx   ← indeks acak ∈ [0, 4]
+      w[idx] ← bilangan acak U(0,1)    // reset satu gen
+      w     ← w / jumlah(w)            // renormalisasi: Σw = 1
+  KEMBALIKAN w
+═══════════════════════════════════════════════════════════

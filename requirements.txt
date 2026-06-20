@@ -2,3 +2,5 @@ pandas
 numpy
 kagglehub
 matplotlib
+scipy
+openpyxl

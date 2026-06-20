@@ -1,27 +1,36 @@
 
 ===========================================================
-RINGKASAN HASIL EKSPERIMEN
+RINGKASAN HASIL EKSPERIMEN (OPTIMASI BOBOT - SPEARMAN)
 ===========================================================
 
-Berdasarkan pengujian terhadap 5 konfigurasi parameter yang berbeda, 
-didapatkan bahwa Konfigurasi 3.0 memberikan hasil terbaik.
+Berdasarkan pengujian terhadap 5 konfigurasi parameter yang berbeda,
+didapatkan bahwa Konfigurasi 4.0 memberikan hasil terbaik.
 
 Detail Parameter Terbaik:
-- Populasi        : 100.0
-- Generasi        : 150.0
-- Crossover Rate  : 0.9
-- Mutation Rate   : 0.2
+- Populasi        : 150.0
+- Generasi        : 200.0
+- Crossover Rate  : 0.85
+- Mutation Rate   : 0.15
 
 Hasil yang Dicapai:
-- Best Fitness       : 0.000668
-- Rata-rata Fitness  : 0.000657
-- Generasi Terbaik   : Ditemukan pada generasi ke-116.0
-- Waktu Komputasi    : 0.38 detik
+- Best Fitness        : 0.754411
+- Korelasi Spearman   : 0.508822
+- Rata-rata Fitness   : 0.754062
+- Generasi Terbaik    : Ditemukan pada generasi ke-74.0
+- Waktu Komputasi     : 169.21 detik
+
+Bobot Optimal (jumlah = 1):
+- w_distance : 0.1238
+- w_traffic  : 0.1409
+- w_weather  : 0.0689
+- w_vehicle  : 0.0
+- w_agent    : 0.6664
+
+Pembanding baseline equal-weight: Spearman = 0.4295 (fitness = 0.7148)
 
 Kesimpulan:
-Konfigurasi dengan ukuran populasi 100.0 dan generasi 150.0 
-(Crossover Rate 0.9, Mutation Rate 0.2) 
-mampu mencapai konvergensi dan menghasilkan nilai fitness paling optimal dibandingkan konfigurasi lainnya.
-Waktu komputasi yang dibutuhkan adalah 0.38 detik, 
-sehingga parameter ini direkomendasikan untuk digunakan dalam implementasi final sistem.
+Konfigurasi 4.0 (populasi 150.0, generasi 200.0,
+Crossover Rate 0.85, Mutation Rate 0.15)
+menghasilkan fitness paling optimal dan mengungguli baseline equal-weight,
+sehingga direkomendasikan sebagai konfigurasi final.
 ===========================================================
