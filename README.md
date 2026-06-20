@@ -323,6 +323,74 @@ Interpretasi:
 
 Baseline equal-weight sudah menunjukkan hubungan positif sedang dengan `delivery_time`. Artinya, fitur risiko yang dibuat cukup relevan. Target GA adalah mencari bobot yang lebih baik daripada baseline tersebut.
 
+## Desain Algoritma (Genetic Algorithm)
+
+Optimasi bobot dilakukan dengan **Genetic Algorithm**. Setiap kromosom merepresentasikan satu kombinasi lima bobot faktor risiko, dengan kendala `Σw = 1`.
+
+### Flowchart
+
+![Flowchart Genetic Algorithm](flowchart_ga.png)
+
+> Catatan: simpan gambar flowchart sebagai `flowchart_ga.png` pada folder yang sama agar tampil.
+
+### Representasi & Operator
+
+| Komponen | Pilihan |
+|---|---|
+| Kromosom | `[w_distance, w_traffic, w_weather, w_vehicle, w_agent]`, dengan `Σw = 1` |
+| Fitness | `(Spearman(priority_score, delivery_time) + 1) / 2` |
+| Seleksi | Tournament Selection (k = 3) |
+| Crossover | One-Point Crossover + renormalisasi (Pc = 0.8) |
+| Mutasi | Reset gen + renormalisasi (Pm = 0.1) |
+| Elitism | 10% individu terbaik dipertahankan |
+
+### Pseudocode
+
+```text
+MULAI
+  data        ← muat dataset (5 feature score + delivery_time)
+  populasi    ← N bobot acak, dinormalisasi (Σw = 1)
+  best        ← evaluasi fitness awal
+
+  UNTUK generasi = 1..MAX:
+      elite          ← 10% individu terbaik
+      SELAMA populasi belum penuh:
+          p1, p2     ← TournamentSelection(k = 3)
+          JIKA acak < Pc: c1, c2 ← OnePointCrossover(p1, p2); renormalisasi
+          JIKA acak < Pm: reset 1 gen lalu renormalisasi
+      populasi       ← elite + offspring
+      best           ← update jika fitness lebih tinggi
+
+  TAMPILKAN best_weights, best_fitness
+SELESAI
+
+FITNESS(w):
+  priority_score ← Σ (w[k] × score[k])
+  KEMBALIKAN (Spearman(priority_score, delivery_time) + 1) / 2
+```
+
+Implementasi lengkap: `03_genetic_algorithm_implementation.ipynb`.
+
+## Hasil Eksperimen
+
+Lima konfigurasi parameter diuji pada `04_testing_eksperimen.ipynb`. **Seluruh konfigurasi konvergen ke fitness yang setara (~0,754 / Spearman ~0,509)** dan **mengungguli baseline equal-weight (Spearman 0,4295)**. Perbedaan parameter berdampak pada efisiensi dan kecepatan konvergensi, bukan kualitas akhir.
+
+Konfigurasi terbaik: **K3** (Populasi 100, Generasi 150, Crossover 0,9, Mutasi 0,2) dengan fitness **0,7544** (Spearman **0,5088**).
+
+Bobot optimal yang ditemukan:
+
+| Faktor | Bobot |
+|---|---:|
+| `agent` (kualitas kurir) | 0,666 |
+| `traffic` | 0,141 |
+| `distance` | 0,123 |
+| `weather` | 0,069 |
+| `vehicle` | 0,001 |
+
+GA menemukan bahwa **kualitas kurir paling memengaruhi keterlambatan**, jauh dari asumsi bobot sama rata. Konvergensi tercapai cepat (sekitar generasi 10–30).
+
+![Grafik Konvergensi](grafik_perbandingan_konfigurasi.png)
+
 ## Luaran yang Relevan dengan Rubrik
 
 | Rubrik | Output yang Disediakan |

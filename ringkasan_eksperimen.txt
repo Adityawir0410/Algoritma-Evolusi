@@ -4,37 +4,37 @@ RINGKASAN HASIL EKSPERIMEN (OPTIMASI BOBOT - SPEARMAN)
 ===========================================================
 
 Berdasarkan pengujian terhadap 5 konfigurasi parameter yang berbeda,
-didapatkan bahwa Konfigurasi 5.0 memberikan hasil terbaik.
+didapatkan bahwa Konfigurasi 3 memberikan hasil terbaik (fitness tertinggi).
 
 Detail Parameter Terbaik:
-- Populasi        : 80.0
-- Generasi        : 80.0
-- Crossover Rate  : 0.75
-- Mutation Rate   : 0.25
+- Populasi        : 100
+- Generasi        : 150
+- Crossover Rate  : 0.9
+- Mutation Rate   : 0.2
 
 Hasil yang Dicapai:
-- Best Fitness        : 0.754389
-- Korelasi Spearman   : 0.508778
-- Rata-rata Fitness   : 0.753601
-- Generasi Terbaik    : Ditemukan pada generasi ke-80.0
-- Waktu Komputasi     : 36.03 detik
+- Best Fitness        : 0.754391
+- Korelasi Spearman   : 0.508782
+- Rata-rata Fitness   : 0.754023
+- Generasi Terbaik    : Ditemukan pada generasi ke-102
+- Waktu Komputasi     : 78.66 detik
 
 Bobot Optimal (jumlah = 1):
-- w_distance : 0.1194
-- w_traffic  : 0.1351
-- w_weather  : 0.0556
-- w_vehicle  : 0.0012
-- w_agent    : 0.6886
+- w_distance : 0.1233
+- w_traffic  : 0.1407
+- w_weather  : 0.0691
+- w_vehicle  : 0.0006
+- w_agent    : 0.6663
 
 Pembanding baseline equal-weight: Spearman = 0.4295 (fitness = 0.7148)
 
 Catatan: Seluruh konfigurasi konvergen ke fitness yang nyaris setara
-(selisih < 0.0004 / Spearman ~0.509), sehingga parameter tidak banyak
+(selisih < 0.0011 / Spearman ~0.509), sehingga parameter tidak banyak
 memengaruhi KUALITAS akhir, melainkan kecepatan konvergensi dan efisiensi.
 
 Kesimpulan:
-Karena semua konfigurasi setara secara kualitas dan seluruhnya mengungguli
-baseline equal-weight, Konfigurasi 5.0 (populasi 80.0, generasi 80.0,
-Crossover Rate 0.75, Mutation Rate 0.25) dipilih sebagai konfigurasi
-final karena memberikan fitness tertinggi pada beban komputasi yang efisien.
+Seluruh konfigurasi setara secara kualitas dan mengungguli baseline equal-weight.
+Konfigurasi 3 (populasi 100, generasi 150,
+Crossover Rate 0.9, Mutation Rate 0.2)
+dipilih sebagai konfigurasi final karena memberikan nilai fitness tertinggi.
 ===========================================================
